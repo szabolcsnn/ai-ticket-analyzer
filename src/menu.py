@@ -1,20 +1,72 @@
+MENU_OPTIONS = {
+    "1": "Create ticket",
+    "2": "List tickets",
+    "3": "Search ticket",
+    "4": "Update ticket",
+    "5": "Close ticket",
+    "6": "Delete ticket",
+    "0": "Exit",
+}
+
+tickets = []
+
+
+def create_ticket():
+    title = input("Title: ")
+    description = input("Description: ")
+    category = input("Category: ")
+    priority = input("Priority: ")
+    status = "open"
+
+    ticket = {
+        "title": title,
+        "description": description,
+        "category": category,
+        "priority": priority,
+        "status": status,
+    }
+
+    tickets.append(ticket)
+
+    print("\nTicket created successfully!")
+    print(f"Title: {title}")
+    print(f"Description: {description}")
+    print(f"Category: {category}")
+    print(f"Priority: {priority}")
+    print(f"Status: {status}")
+
+
+def list_tickets():
+    if not tickets:
+        print("No tickets found")
+        return
+
+    for index, ticket in enumerate(tickets, start=1):
+        print(f"\nTicket #{index}")
+        print(f"Title: {ticket['title']}")
+        print(f"Description: {ticket['description']}")
+        print(f"Category: {ticket['category']}")
+        print(f"Priority: {ticket['priority']}")
+        print(f"Status: {ticket['status']}")
+
+
 def run_menu():
     while True:
         print("\nAI Ticket Analyzer")
-        print("1. Create ticket")
-        print("2. List tickets")
-        print("3. Search ticket")
-        print("4. Update ticket")
-        print("5. Close ticket")
-        print("6. Delete ticket")
-        print("0. Exit")
+
+        for option_number, option_label in MENU_OPTIONS.items():
+            print(f"{option_number}. {option_label}")
 
         choice = input("Choose an option: ")
 
+        if choice not in MENU_OPTIONS:
+            print("Invalid option. Please try again.")
+            continue
+
         if choice == "1":
-            print("Create ticket selected")
+            create_ticket()
         elif choice == "2":
-            print("List tickets selected")
+            list_tickets()
         elif choice == "3":
             print("Search ticket selected")
         elif choice == "4":
@@ -26,5 +78,3 @@ def run_menu():
         elif choice == "0":
             print("Goodbye!")
             break
-        else:
-            print("Invalid option. Please try again.")
