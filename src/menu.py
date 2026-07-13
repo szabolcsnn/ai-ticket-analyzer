@@ -36,18 +36,45 @@ def create_ticket():
     print(f"Status: {status}")
 
 
+def display_ticket(ticket, index):
+    print(f"\nTicket #{index}")
+    print(f"Title: {ticket['title']}")
+    print(f"Description: {ticket['description']}")
+    print(f"Category: {ticket['category']}")
+    print(f"Priority: {ticket['priority']}")
+    print(f"Status: {ticket['status']}")
+
+
 def list_tickets():
     if not tickets:
         print("No tickets found")
         return
 
     for index, ticket in enumerate(tickets, start=1):
-        print(f"\nTicket #{index}")
-        print(f"Title: {ticket['title']}")
-        print(f"Description: {ticket['description']}")
-        print(f"Category: {ticket['category']}")
-        print(f"Priority: {ticket['priority']}")
-        print(f"Status: {ticket['status']}")
+        display_ticket(ticket, index)
+
+
+def search_tickets():
+    if not tickets:
+        print("No tickets found")
+        return
+
+    search_term = input("Search term: ").lower()
+    found_tickets = []
+
+    for ticket in tickets:
+        title = ticket["title"].lower()
+        description = ticket["description"].lower()
+
+        if search_term in title or search_term in description:
+            found_tickets.append(ticket)
+
+    if not found_tickets:
+        print("No matching tickets found")
+        return
+
+    for index, ticket in enumerate(found_tickets, start=1):
+        display_ticket(ticket, index)
 
 
 def run_menu():
@@ -68,7 +95,7 @@ def run_menu():
         elif choice == "2":
             list_tickets()
         elif choice == "3":
-            print("Search ticket selected")
+            search_tickets()
         elif choice == "4":
             print("Update ticket selected")
         elif choice == "5":
