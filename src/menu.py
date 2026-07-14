@@ -1,3 +1,5 @@
+from src.database import DatabaseManager
+from src.ticket_repository import TicketRepository
 from src.ticket_service import TicketService
 
 
@@ -134,7 +136,10 @@ def update_ticket(ticket_service):
 
 
 def run_menu():
-    ticket_service = TicketService()
+    database_manager = DatabaseManager()
+    database_manager.initialize_database()
+    ticket_repository = TicketRepository(database_manager)
+    ticket_service = TicketService(ticket_repository)
 
     while True:
         print("\nAI Ticket Analyzer")

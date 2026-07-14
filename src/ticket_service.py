@@ -2,8 +2,8 @@ from src.ticket import Ticket
 
 
 class TicketService:
-    def __init__(self):
-        self._tickets = []
+    def __init__(self, ticket_repository):
+        self.ticket_repository = ticket_repository
 
     def create_ticket(self, title, description, category, priority):
         ticket = Ticket(
@@ -12,32 +12,23 @@ class TicketService:
             category=category,
             priority=priority,
         )
-        self._tickets.append(ticket)
-        return ticket
+        return self.ticket_repository.create(ticket)
 
     def list_tickets(self):
-        return self._tickets.copy()
+        return self.ticket_repository.get_all()
 
     def search_tickets(self, search_term):
-        normalized_search_term = search_term.lower()
-        found_tickets = []
-
-        for ticket in self._tickets:
-            title = ticket.title.lower()
-            description = ticket.description.lower()
-
-            if normalized_search_term in title or normalized_search_term in description:
-                found_tickets.append(ticket)
-
-        return found_tickets
+        return self.ticket_repository.search(search_term)
 
     def close_ticket(self, ticket_index):
-        selected_ticket = self._tickets[ticket_index]
+        selected_ticket = self.list_tickets()[ticket_index]
         selected_ticket.status = "closed"
-        return selected_ticket
+        return self.ticket_repository.update(selected_ticket)
 
     def delete_ticket(self, ticket_index):
-        return self._tickets.pop(ticket_index)
+        selected_ticket = self.list_tickets()[ticket_index]
+        self.ticket_repository.delete(selected_ticket.id)
+        return selected_ticket
 
     def update_ticket(
         self,
@@ -48,7 +39,7 @@ class TicketService:
         priority=None,
         status=None,
     ):
-        selected_ticket = self._tickets[ticket_index]
+        selected_ticket = self.list_tickets()[ticket_index]
 
         if title:
             selected_ticket.title = title
@@ -61,13 +52,13 @@ class TicketService:
         if status:
             selected_ticket.status = status
 
-        return selected_ticket
+        return self.ticket_repository.update(selected_ticket)
 
     def has_tickets(self):
-        return bool(self._tickets)
+        return self.ticket_repository.count() > 0
 
     def ticket_count(self):
-        return len(self._tickets)
+        return self.ticket_repository.count()
 
     def is_valid_ticket_index(self, ticket_index):
-        return 0 <= ticket_index < len(self._tickets)
+        return 0 <= ticket_index < self.ticket_count()

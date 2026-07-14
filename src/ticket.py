@@ -8,3 +8,4 @@ class Ticket:
     category: str
     priority: str
     status: str = "open"
+    id: int | None = None
