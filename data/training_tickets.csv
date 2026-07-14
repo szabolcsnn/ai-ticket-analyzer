@@ -1,0 +1,46 @@
+title,description,category
+Login button does not work,User cannot sign in after entering correct password,Authentication
+Password reset email missing,Customer requested password reset but no email arrived,Authentication
+MFA code rejected,Two factor authentication code is rejected during login,Authentication
+Account locked after retries,User account is locked after multiple failed login attempts,Authentication
+Invoice total is incorrect,Monthly invoice shows the wrong total amount,Billing
+Payment was charged twice,Customer reports duplicate card charge,Billing
+Refund request not processed,Refund is still pending after several days,Billing
+Subscription plan not updated,Customer upgraded plan but billing page still shows old plan,Billing
+Dashboard loads slowly,Main dashboard takes too long to load,Performance
+Reports page timeout,Analytics reports timeout for large date ranges,Performance
+Search results are delayed,Search page responds slowly during peak hours,Performance
+API response time is high,External API requests are taking more than five seconds,Performance
+Export button crashes,CSV export fails with an unexpected error,Bug
+Profile page shows blank screen,User profile page renders a blank screen after update,Bug
+Mobile layout is broken,Buttons overlap on mobile ticket view,Bug
+Attachment upload fails,File upload fails when the attachment is larger than expected,Bug
+Cannot access admin panel,User does not have permission to open admin panel,Permissions
+Role change not applied,Updated user role does not change access rights,Permissions
+Team member cannot view tickets,Support agent cannot view assigned tickets,Permissions
+Access denied for reports,Manager receives access denied on reporting page,Permissions
+User cannot authenticate,Login fails because authentication service returns an error,Authentication
+Forgot password link expired,Password reset link expires before the user can finish login,Authentication
+Single sign on failure,SSO login redirects back to the sign in page,Authentication
+Session expires immediately,User is logged out immediately after successful login,Authentication
+Authentication token invalid,API returns invalid authentication token for user session,Authentication
+Credit card payment failed,Payment gateway rejects valid credit card transaction,Billing
+Billing address cannot be saved,Customer cannot update billing address on account page,Billing
+Plan downgrade charged incorrectly,Subscription downgrade still charges premium plan amount,Billing
+Tax calculation is wrong,Invoice tax amount does not match customer region,Billing
+Payment receipt missing,Customer paid invoice but receipt was not generated,Billing
+Application freezes on report,Report generation freezes before showing results,Performance
+Slow database query,Ticket search is slow because database query takes too long,Performance
+Page load performance degraded,Home page load time increased after deployment,Performance
+Background job runs slowly,Nightly ticket sync job takes longer than expected,Performance
+High memory usage,Service uses too much memory during ticket import,Performance
+Unexpected server error,Application returns internal server error on ticket creation,Bug
+Dropdown does not open,Category dropdown does not open after UI update,Bug
+Notification count is wrong,Notification badge shows incorrect number of unread tickets,Bug
+Comment save error,Ticket comment cannot be saved because of validation error,Bug
+Broken email template,Support email template renders missing variables,Bug
+Permission role missing,New permission role is not available for admin users,Permissions
+Cannot assign ticket,Team lead cannot assign ticket because permission check fails,Permissions
+Private notes visible,Agent without permission can see private ticket notes,Permissions
+User group access broken,User group permissions do not apply to shared queues,Permissions
+Report export forbidden,Report export is blocked even for users with manager permission,Permissions

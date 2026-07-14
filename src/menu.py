@@ -1,5 +1,6 @@
 from src.database import DatabaseManager
 from src.analysis.ticket_analysis import TicketAnalysis
+from src.machine_learning.ticket_classifier import TicketCategoryClassifier
 from src.ticket_repository import TicketRepository
 from src.ticket_service import TicketService
 
@@ -13,6 +14,8 @@ MENU_OPTIONS = {
     "6": "Delete ticket",
     "7": "Show ticket statistics",
     "8": "Export analysis charts",
+    "9": "Train category classifier",
+    "10": "Predict ticket category",
     "0": "Exit",
 }
 
@@ -174,12 +177,35 @@ def export_analysis_charts(ticket_analysis):
         print(f"- {chart_file}")
 
 
+def train_category_classifier(ticket_classifier):
+    evaluation = ticket_classifier.train_and_evaluate()
+
+    print("\nCategory classifier trained successfully!")
+    print(f"Accuracy: {evaluation['accuracy']}")
+    print(f"Training samples: {evaluation['training_samples']}")
+    print(f"Test samples: {evaluation['test_samples']}")
+    print("Categories:")
+    for category in evaluation["categories"]:
+        print(f"- {category}")
+
+
+def predict_ticket_category(ticket_classifier):
+    title = input("Title: ")
+    description = input("Description: ")
+    prediction = ticket_classifier.predict_category(title, description)
+
+    print("\nPredicted category")
+    print(f"Category: {prediction['category']}")
+    print(f"Confidence: {prediction['confidence']}")
+
+
 def run_menu():
     database_manager = DatabaseManager()
     database_manager.initialize_database()
     ticket_repository = TicketRepository(database_manager)
     ticket_service = TicketService(ticket_repository)
     ticket_analysis = TicketAnalysis(database_manager)
+    ticket_classifier = TicketCategoryClassifier()
 
     while True:
         print("\nAI Ticket Analyzer")
@@ -209,6 +235,10 @@ def run_menu():
             display_statistics(ticket_analysis)
         elif choice == "8":
             export_analysis_charts(ticket_analysis)
+        elif choice == "9":
+            train_category_classifier(ticket_classifier)
+        elif choice == "10":
+            predict_ticket_category(ticket_classifier)
         elif choice == "0":
             print("Goodbye!")
             break
