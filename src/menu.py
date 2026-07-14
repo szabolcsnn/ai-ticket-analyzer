@@ -1,4 +1,5 @@
 from src.database import DatabaseManager
+from src.analysis.ticket_analysis import TicketAnalysis
 from src.ticket_repository import TicketRepository
 from src.ticket_service import TicketService
 
@@ -10,6 +11,8 @@ MENU_OPTIONS = {
     "4": "Update ticket",
     "5": "Close ticket",
     "6": "Delete ticket",
+    "7": "Show ticket statistics",
+    "8": "Export analysis charts",
     "0": "Exit",
 }
 
@@ -135,11 +138,48 @@ def update_ticket(ticket_service):
     display_ticket(updated_ticket, ticket_index + 1)
 
 
+def display_statistics(ticket_analysis):
+    statistics = ticket_analysis.get_statistics()
+
+    if statistics["total_tickets"] == 0:
+        print("No tickets found.")
+        return
+
+    print("\nTicket Statistics")
+    print(f"Total tickets: {statistics['total_tickets']}")
+
+    print("\nBy status:")
+    for status, count in statistics["by_status"].items():
+        percentage = statistics["status_percentages"][status]
+        print(f"- {status}: {count} ({percentage}%)")
+
+    print("\nBy category:")
+    for category, count in statistics["by_category"].items():
+        print(f"- {category}: {count}")
+
+    print("\nBy priority:")
+    for priority, count in statistics["by_priority"].items():
+        print(f"- {priority}: {count}")
+
+
+def export_analysis_charts(ticket_analysis):
+    chart_files = ticket_analysis.save_summary_charts()
+
+    if not chart_files:
+        print("No tickets found.")
+        return
+
+    print("\nCharts exported successfully:")
+    for chart_file in chart_files:
+        print(f"- {chart_file}")
+
+
 def run_menu():
     database_manager = DatabaseManager()
     database_manager.initialize_database()
     ticket_repository = TicketRepository(database_manager)
     ticket_service = TicketService(ticket_repository)
+    ticket_analysis = TicketAnalysis(database_manager)
 
     while True:
         print("\nAI Ticket Analyzer")
@@ -165,6 +205,10 @@ def run_menu():
             close_ticket(ticket_service)
         elif choice == "6":
             delete_ticket(ticket_service)
+        elif choice == "7":
+            display_statistics(ticket_analysis)
+        elif choice == "8":
+            export_analysis_charts(ticket_analysis)
         elif choice == "0":
             print("Goodbye!")
             break
